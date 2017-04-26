@@ -1,8 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const { DEV } = require('./config');
-const knex = require('knex')(DEV);
+const { DATABASE, PORT } = require('./config');
+
+const knex = require('knex')(DATABASE);
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,4 +16,4 @@ app.get('/restaurants', (req, res) => {
     .then(results => res.json(results));
 });
 
-app.listen(process.env.PORT || 8080);
+app.listen(PORT);

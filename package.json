@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha"
+    "test": "mocha",
+    "devmon": "nodemon drills.js"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "faker": "^3.1.0",
-    "mocha": "^3.2.0"
+    "mocha": "^3.2.0",
+    "nodemon": "^1.11.0"
   }
 }
