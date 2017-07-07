@@ -1,4 +1,5 @@
 'use strict';
+
 const { DATABASE } = require('./config');
 const knex = require('knex')(DATABASE);
 
