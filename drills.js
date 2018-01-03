@@ -3,6 +3,9 @@
 const { DATABASE } = require('./config');
 const knex = require('knex')(DATABASE);
 
+const Treeize = require('treeize');
+const restaurants = new Treeize();
+
 // clear the console before each run
 process.stdout.write('\x1Bc');
 
@@ -115,40 +118,117 @@ process.stdout.write('\x1Bc');
 //   .del()
 //   .then(console.log)
 
-const hydrateResults = function(result_set){
-  const hydrated = {}
+// const hydrateResults = function(result_set){
+//   const hydrated = {}
 
-  result_set.forEach(row => {
-    if(!(row.id in hydrated)){
-      hydrated[row.id]={
-        name: row.name,
-        cuisine: row.cuisine,
-        borough: row.borough,
-        grades: []
-      };
-    }
+//   result_set.forEach(row => {
+//     if(!(row.id in hydrated)){
+//       hydrated[row.id]={
+//         name: row.name,
+//         cuisine: row.cuisine,
+//         borough: row.borough,
+//         grades: []
+//       };
+//     }
 
-    hydrated[row.id].grades.push({ 
-          gradeId: row.gradeId,
-          grade: row.grade,
-          score: row.score
-        });
- });
-  return (hydrated);
-};
+//     hydrated[row.id].grades.push({ 
+//           gradeId: row.gradeId,
+//           grade: row.grade,
+//           score: row.score
+//         });
+//  });
+//   return (hydrated);
+// };
+
+
+// knex.select('restaurants.id', 'name', 'cuisine', 'borough', 'grades.id as gradeId', 'grade', 'score')
+//     .from('restaurants')
+//     .innerJoin('grades', 'restaurants.id', 'grades.restaurant_id')
+//     .orderBy('date', 'desc')
+//     .limit(10)
+//     .debug(false)  
+//     .then(results => {
+//       console.log('hydrating...');
+//       console.log(JSON.stringify(hydrateResults(results), null, 4)); 
+//       console.log('done!');
+//     });
+
+//Treeize version
+
+const restaurantsData = [
+  {
+    'name': 'John Doe',
+    'age': 34,
+    'pets:name': 'Rex',
+    'pets:type': 'dog',
+    'pets:toys:type': 'bone'
+  },
+  {
+    'name': 'John Doe',
+    'age': 34,
+    'pets:name': 'Rex',
+    'pets:type': 'dog',
+    'pets:toys:type': 'ball'
+  },
+  {
+    'name': 'Mary Jane',
+    'age': 19,
+    'pets:name': 'Mittens',
+    'pets:type': 'kitten',
+    'pets:toys:type': 'yarn'
+  },
+  {
+    'name': 'Mary Jane',
+    'age': 19,
+    'pets:name': 'Fluffy',
+    'pets:type': 'cat'
+  }
+];
 
 
 knex.select('restaurants.id', 'name', 'cuisine', 'borough', 'grades.id as gradeId', 'grade', 'score')
-    .from('restaurants')
-    .innerJoin('grades', 'restaurants.id', 'grades.restaurant_id')
-    .orderBy('date', 'desc')
-    .limit(10)
-    .debug(false)  
-    .then(results => {
-      console.log('hydrating...');
-      console.log(JSON.stringify(hydrateResults(results), null, 4)); 
-      console.log('done!');
-    });
+  .from('restaurants')
+  .innerJoin('grades', 'restaurants.id', 'grades.restaurant_id')
+  .orderBy('date', 'desc')
+  .limit(1)
+  .debug(false)  
+  .then(results => {
+    console.log('hydrating...');
+    // console.log(results);
+    let restaurantData = [
+      {
+        'name': results.name,
+      }
+    ];
+    // console.log(restaurantData);
+    // restaurants.setSignature({
+    //   'id': 1,
+    //   'name': results.name,
+    //   'cuisine': results.cuisine,
+    //   'borough': results.borough,
+    //   'grades': [
+    //     {
+    //       'grade': results.grade,
+    //       'score': results.score
+    //     }
+    //   ]
+    // });
+
+    restaurants.grow(restaurantData);
+    console.log(restaurants.getData());
+    // console.log(restaurants.getSignature());
+    // console.log(JSON.stringify(restaurants, null, 4)); 
+    // console.log(JSON.stringify(hydrateResults(results), null, 4)); 
+    console.log('done!');
+  });
+
+
+
+
+// restaurants.grow(restaurantsData);
+
+// console.log(JSON.stringify(restaurants.getData(), null, 4)); 
+
 
 
 
