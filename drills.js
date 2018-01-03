@@ -115,6 +115,46 @@ process.stdout.write('\x1Bc');
 //   .del()
 //   .then(console.log)
 
+const hydrateResults = function(result_set){
+  const hydrated = {}
+
+  result_set.forEach(row => {
+    if(!(row.id in hydrated)){
+      hydrated[row.id]={
+        name: row.name,
+        cuisine: row.cuisine,
+        borough: row.borough,
+        grades: []
+      };
+    }
+
+    hydrated[row.id].grades.push({ 
+          gradeId: row.gradeId,
+          grade: row.grade,
+          score: row.score
+        });
+ });
+  return (hydrated);
+};
+
+
+knex.select('restaurants.id', 'name', 'cuisine', 'borough', 'grades.id as gradeId', 'grade', 'score')
+    .from('restaurants')
+    .innerJoin('grades', 'restaurants.id', 'grades.restaurant_id')
+    .orderBy('date', 'desc')
+    .limit(10)
+    .debug(false)  
+    .then(results => {
+      console.log('hydrating...');
+      console.log(JSON.stringify(hydrateResults(results), null, 4)); 
+      console.log('done!');
+    });
+
+
+
+
+
+
 
 // Destroy the connection pool
 knex.destroy().then(() => {
