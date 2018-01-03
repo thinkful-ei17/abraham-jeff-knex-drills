@@ -186,40 +186,17 @@ const restaurantsData = [
 ];
 
 
-knex.select('restaurants.id', 'name', 'cuisine', 'borough', 'grades.id as gradeId', 'grade', 'score')
+knex.select('restaurants.id', 'name', 'cuisine', 'borough', 'grades.id as grades:gradeId', 'grade as grades:grade', 'score as grades:score')
   .from('restaurants')
   .innerJoin('grades', 'restaurants.id', 'grades.restaurant_id')
   .orderBy('date', 'desc')
-  .limit(1)
+  .limit(10)
   .debug(false)  
   .then(results => {
     console.log('hydrating...');
-    // console.log(results);
-    let restaurantData = [
-      {
-        'name': results.name,
-      }
-    ];
-    // console.log(restaurantData);
-    // restaurants.setSignature({
-    //   'id': 1,
-    //   'name': results.name,
-    //   'cuisine': results.cuisine,
-    //   'borough': results.borough,
-    //   'grades': [
-    //     {
-    //       'grade': results.grade,
-    //       'score': results.score
-    //     }
-    //   ]
-    // });
-
-    restaurants.grow(restaurantData);
-    console.log(restaurants.getData());
-    // console.log(restaurants.getSignature());
-    // console.log(JSON.stringify(restaurants, null, 4)); 
-    // console.log(JSON.stringify(hydrateResults(results), null, 4)); 
-    console.log('done!');
+    restaurants.grow(results);
+    console.log(JSON.stringify(restaurants.getData(), null, 4));
+   console.log('done!');
   });
 
 
