@@ -58,14 +58,62 @@ process.stdout.write('\x1Bc');
 //   .then(console.log);
 
 // 7. Italian restaurants in one of several zip codes
-knex 
-  .select('id', 'name')
-  .from('restaurants')
-  .where('cuisine', 'Italian')
-  .whereIn('address_zipcode', ['10012', '10013', '10014'])
-  .limit(5)
-  .orderBy('name', 'asc')
-  .then(console.log);
+// knex 
+//   .select('id', 'name')
+//   .from('restaurants')
+//   .where('cuisine', 'Italian')
+//   .whereIn('address_zipcode', ['10012', '10013', '10014'])
+//   .limit(5)
+//   .orderBy('name', 'asc')
+//   .then(console.log);
+
+// 8. Create a restaurant
+//  knex
+//   .insert({name: 'Byte Cafe', borough: 'Brooklyn', cuisine: 'coffee', address_building_number: '123', address_street: 'Atlantic Ave', address_zipcode:'11231'})
+//   .into('restaurants')
+//   .then(console.log);
+
+// 9. Create a restaurant and return id and name
+// knex
+//   .insert({name: 'Krusty Burger', borough: 'Brooklyn', cuisine:'fine dining', address_building_number: '789', address_street: 'Atlantic Ave', address_zipcode: '11231'})
+//   .into('restaurants')
+//   .returning(['id', 'name'])
+//   .then(console.log);
+
+// 10. Create three restaurants and return id and name
+// const newRestaurants = [
+//   {name: 'Bobs Burgers', borough: 'Brooklyn', cuisine: 'American', address_building_number: '5432', address_street: 'main st', address_zipcode: '11231'},
+//   {name: 'Abe\'s Spot', borough: 'Brooklyn', cuisine: 'pub', address_building_number: '2784', address_street: 'somewhere ave', address_zipcode: '11234'},
+//   {name: 'Dat\'s Italian!', borough: 'Brooklyn', cuisine: 'Italian', address_building_number: '1235', address_street: 'Another Blvd', address_zipcode: '11236'}
+// ];
+
+// knex
+// .insert(newRestaurants)
+// .into('restaurants')
+// .returning(['id', 'name'])
+// .then(console.log);
+
+// 11. Update a record
+// knex('restaurants')
+//   .update('name','DJ Renylolds Pub And Restaurant')
+//   .where('nyc_restaurant_id','30191841')
+//   .then(console.log);
+
+// 12. Delete by id
+
+// knex
+//   .from('restaurants')
+//   .where('id','10')
+//   .del()
+//   .then(console.log);
+
+
+// 13. a blocked delete
+// knex
+//   .from('restaurants')
+//   .where('id','22')
+//   .del()
+//   .then(console.log)
 
 
 // Destroy the connection pool
